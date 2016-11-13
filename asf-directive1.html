@@ -22,7 +22,8 @@ https:www.npmjs.com/package/angular-schema-form
 asf demo of promise and asf<br/>
 1. handle $http defer by promise.<br/>
 2. embed asf into a new directive<br/>
-3. trying pass data via scope of directive<br/><br/><br/>
+3. trying pass data via scope of directive<br/>
+4. AFTER 3 secs, update form data, add an option in title select input box<br/><br/>
 	<div ng-app='mainApp' ng-controller='myCtrl'>
 	
 		================================<br/>
@@ -32,7 +33,7 @@ asf demo of promise and asf<br/>
 	</div>
 	<script>
 		var mainApp = angular.module('mainApp',['schemaForm']);
-		var myCtrl = mainApp.controller('myCtrl',function($scope,$http,getFormData){
+		var myCtrl = mainApp.controller('myCtrl',function($scope,$http,getFormData,$timeout){
 				getFormData.getSchema().then(function(promise){
 					$scope.schema_data = promise;
 					// console.log($scope.schema); // this shoudl output data
@@ -40,7 +41,11 @@ asf demo of promise and asf<br/>
 				getFormData.getForm().then(function(promise){
 					$scope.form_data = promise;
 				});
-				
+				$timeout(function(){
+					getFormData.getSchema(1).then(function(promise){
+						$scope.schema_data = promise;
+					});
+				},3000);
 				// $scope.model = {};
 			});
 
@@ -68,12 +73,19 @@ asf demo of promise and asf<br/>
 				form:{}
 			};
 			this.result = {};
-			this.getSchema = function(){
-				
-				var promise = $http.get('./schema.json').then(function(response){
+			this.getSchema = function(num){
+				if(num){
+					var promise = $http.get('./schema1.json').then(function(response){
 						this.result = response.data;
 						return this.result;
-				});
+					});
+				}else{
+					var promise = $http.get('./schema.json').then(function(response){
+						this.result = response.data;
+						return this.result;
+					});
+				}
+				
 				return promise;
 			};
 			this.getForm = function(){
