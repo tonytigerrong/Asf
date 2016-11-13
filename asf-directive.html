@@ -36,7 +36,7 @@ asf demo of promise and asf<br/>
 				getFormData.getForm().then(function(promise){
 					$scope.form = promise;
 				});
-				console.log($scope.schema);
+				console.log($scope.schema); //no output cause asych execute
 				console.log($scope.form);
 				$scope.model = {};
 			});
@@ -45,6 +45,7 @@ asf demo of promise and asf<br/>
 			 	var directive = {};
 			 	directive.restrict = 'E';
 			 	directive.templateUrl = "form.html";
+			 	// directive.scope=true;
 			 	// directive.scope = {
 			 	// 	schema: "=sf-schema",
 			 	// 	form: "=sf-form"

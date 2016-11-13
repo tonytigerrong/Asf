@@ -24,48 +24,39 @@ asf demo of promise and asf<br/>
 2. embed asf into a new directive<br/>
 3. trying pass data via scope of directive<br/><br/><br/>
 	<div ng-app='mainApp' ng-controller='myCtrl'>
-		======  all ====================<br/>
-		{{all}}<br/>
+	
 		================================<br/>
-		<my-asf schema='myCtrl.getSchema()' form='myCtrl.getForm()'></my-asf><br/>
+		<my-asf schema1='schema_data' form1='form_data'></my-asf><br/>
 		================================<br/>
-		<form sf-schema='schema' sf-form='form'></form>
+		<form sf-schema='schema_data' sf-form='form_data'></form>
 	</div>
 	<script>
 		var mainApp = angular.module('mainApp',['schemaForm']);
 		var myCtrl = mainApp.controller('myCtrl',function($scope,$http,getFormData){
-
 				getFormData.getSchema().then(function(promise){
-					$scope.schema = promise;
+					$scope.schema_data = promise;
 					// console.log($scope.schema); // this shoudl output data
 				});
 				getFormData.getForm().then(function(promise){
-					$scope.form = promise;
+					$scope.form_data = promise;
 				});
-
-				// $scope.all = getFormData.getAll().then(function(a){
-				// 	$scope.all = a;
-				// });
-				// $scope.all = {name:'rong'};
-				// console.log($scope.schema); // this should output null, cause by asych process execute
-				// console.log($scope.form);
-				// console.log($scope.all.form);
-				// console.log($scope.all.schema);
+				
 				// $scope.model = {};
 			});
 
 		myCtrl.directive('myAsf',function(){
 			var directive = {};
 			directive.restrict = 'E';
-			directive.templateUrl = "form.html";
+			directive.templateUrl = "form1.html";
 			directive.scope = {
-				schema: '&',
-				form: '&'
+				all:'&',
+				schema1:'=',
+				form1:'='
 			};
 			// directive.scope=true;
 			// directive.scope=false;
 			directive.link = function(scope,elem,attr){
-	            console.log(scope);
+	            // console.log(scope);
 	        }
 			return directive;
 		});
@@ -93,18 +84,6 @@ asf demo of promise and asf<br/>
 				});
 				return promise;
 			};
-			// this.getAll = function(){
-			// 	var promise = this.getSchema().then(function(response){
-			// 			this.all.schema = response.data;
-			// 			return this.all.schema;
-			// 	});
-			// 	promise = this.getForm().then(function(response){
-			// 			this.all.form = response.data;
-			// 			return this.all.form;
-			// 	});
-			// 	return promise;
-				
-			// };
 				
 		}]);
 			
