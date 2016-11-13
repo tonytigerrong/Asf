@@ -1,0 +1,19 @@
+{
+  "name": "asf-demo",
+  "version": "1.0.0",
+  "description": "https://github.com/json-schema-form/angular-schema-form/blob/development/docs/index.md#basic-usage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonytigerrong/Asf.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tonytigerrong/Asf/issues"
+  },
+  "homepage": "https://github.com/tonytigerrong/Asf#readme"
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.js"></script>
+  </head>
+
+  <body ng-app="myModule" ng-controller="HelloCtrl">
+  Independent demo of $q:<br/>
+  target: handle a asychonized invoke of service
+  1. create a Helloworld factory mimic the depay of $http.get<br/>
+  2. using $q.defer and promise, make a notification to variable once the $http.get finish.<br/>
+  3. disploy defer<br/>
+    <h1>Messages</h1>
+    <ul>
+      <li ng-repeat="message in messages">{{ message }}</li>
+    </ul>
+  </body>
+<script type="text/javascript">
+	angular.module('myModule', [])
+  .config(function ($parseProvider)
+  {
+    $parseProvider.unwrapPromises(true);
+  })
+  .factory('HelloWorld', function($q, $timeout) {
+  
+    var getMessages = function() {
+      var deferred = $q.defer();
+  
+      $timeout(function() {
+        deferred.resolve([
+                "*",
+                {
+                  "type": "submit",
+                  "title":"save"
+                }
+          ]);
+      }, 2000);
+  
+      return deferred.promise;
+    };
+    
+    return {
+      getMessages: getMessages
+    };
+  
+  })
+  .controller('HelloCtrl', function($scope, HelloWorld) {
+  
+    $scope.messages = HelloWorld.getMessages();
+    // console.log($scope.messages);
+  
+  });
+</script>
+</html>

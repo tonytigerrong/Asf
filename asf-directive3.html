@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+
+<body>
+<h5>Demo of DI data into controller from java controller layer</h5>
+<!-- https:github.com/json-schema-form/angular-schema-form/blob/development/docs/index.md#basic-usage 
+
+https:www.npmjs.com/package/angular-schema-form -->
+Didn't finish
+	<div ng-app='mainApp' ng-controller='myCtrl'>
+		<!-- <my-asf></my-asf> -->{{schema}}
+		<form sf-schema='schema' sf-form='form'>
+	
+		</form>
+	</div>
+	
+
+	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="bower_components/tv4/tv4.js"></script>
+	<script type="text/javascript" src="bower_components/objectpath/lib/ObjectPath.js"></script>
+	<script type="text/javascript" src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
+	<script>
+		var mainApp = angular.module('mainApp',['schemaForm']);
+			mainApp.config(['$parseProvider',function ($parseProvider)
+			{
+			    $parseProvider.unwrapPromises(true);
+			}]);
+			mainApp.factory('getFormData',function($q,$timeout){
+				var getSchema = function(){
+					var deferred = $q.defer();
+					$timeout(function() {
+						deferred.resolve(
+							{
+								"type": "object",
+								"properties":{
+									"name":{
+										"type":"string","minLength": 2, "title":"Name","description": "description of Name"
+									},
+									"title":{
+										"type":"string",
+										"enum":["dr","sir","mrs","mr"]
+									}
+								}
+							}
+						);
+					}, 2000);
+					return deferred.promise;
+				};
+				var getForm = function(){
+					var deferred = $q.defer();
+					$timeout(function() {
+						deferred.resolve(
+							[
+								"*",
+								{
+									"type": "submit",
+									"title":"save"
+								}
+							]
+						);
+					}, 2000);
+					return deferred.promise;
+				};
+			    
+			    return {
+			      getSchema: getSchema,
+			      getForm:getForm
+			    };
+			});
+		var myCtrl = mainApp.controller('myCtrl',function($scope,$http,getFormData){
+
+				$scope.schema = getFormData.getSchema().value;
+				$scope.form   = getFormData.getForm().value;
+				console.log($scope.schema);
+				$scope.model = {};
+			});
+
+			myCtrl.directive('myAsf',function(){
+			 	var directive = {};
+			 	directive.restrict = 'E';
+			 	directive.templateUrl = "form.html";
+			 	// directive.scope = {
+			 		// 'schema1': "=form-asf"
+			 		// 'form1': "=sf-form-asf"
+			 	// };
+			 	return directive;
+			});
+
+
+	</script>
+</body>
+</html>
