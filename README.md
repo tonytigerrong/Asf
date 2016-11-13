@@ -7,6 +7,8 @@ https://github.com/json-schema-form/angular-schema-form/blob/development/docs/in
 /**
  *  $scope directive controller service injection
  */
+
+ 
 asf-directive.html & asf-directive1.html
 these are demos for invoke restful api in controller layer by service execution;
 1: asf-directive.html
